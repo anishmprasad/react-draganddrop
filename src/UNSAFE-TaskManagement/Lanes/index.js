@@ -7,7 +7,7 @@ export default class Lanes extends Component {
 		super(props);
 		this.state = {
 			lanes: props.lanes,
-			notes: props.notes || []
+			notes: []
 		};
 	}
 	// static getDerivedStateFromProps(props, state) {
@@ -25,6 +25,7 @@ export default class Lanes extends Component {
 			// console.log(lane.notes, noteId, where);
 			noteIndex = lane.notes.indexOf(noteId);
 			if (noteIndex !== -1) {
+				debugger;
 				return Object.assign({}, lane, {
 					notes: lane.notes.filter(id => id !== noteId)
 				});
@@ -157,8 +158,6 @@ export default class Lanes extends Component {
 				notes={this.state.notes}
 				attachToLane={this.attachToLane}
 				attachNotes={this.attachNotes}
-				CardComponent={this.props.CardComponent}
-				LaneComponent={this.props.LaneComponent}
 			/>
 		));
 

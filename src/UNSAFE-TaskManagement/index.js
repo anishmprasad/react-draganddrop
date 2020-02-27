@@ -25,8 +25,6 @@ class TaskManagement extends Component {
 					onEditLane={onEditLane => console.log(onEditLane)}
 					onDeleteLane={onDeleteLane => console.log(onDeleteLane)}
 					onMoveLane={onMoveLane => console.log('onMoveLane Notes', onMoveLane)}
-					CardComponent={this.props.CardComponent}
-					LaneComponent={this.props.LaneComponent}
 				/>
 			</DndProvider>
 		);

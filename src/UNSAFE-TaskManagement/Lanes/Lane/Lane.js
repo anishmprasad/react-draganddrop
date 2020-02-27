@@ -65,59 +65,38 @@ export default class Lane extends React.Component {
 		const lane = this.state.lane;
 		const allNotes = this.state.notes;
 		const laneNotes = lane.notes.map(id => allNotes.find(note => note.id === id)).filter(note => note); // filter out undefined notes
-		// const connectDragSource = this.props.connectDragSource;
-		// const connectDragPreview = this.props.connectDragPreview;
-		// const connectDropTarget = this.props.connectDropTarget;
-		const { LaneComponent } = this.props;
-
-		console.log({ LaneComponent });
-
+		const connectDragSource = this.props.connectDragSource;
+		const connectDragPreview = this.props.connectDragPreview;
+		const connectDropTarget = this.props.connectDropTarget;
 		// console.log('Lane', this.state, this.props, laneNotes);
-		return React.cloneElement(<LaneComponent />, {
-			...this.props,
-			laneNotes,
-			handleDeleteLane: this.handleDeleteLane,
-			handleCreateNote: this.handleCreateNote,
-			Editable: Editable,
-			Notes: Notes
-		});
-	}
-}
-
-Lane.defaultProps = {
-	LaneComponent: LaneComponent
-};
-
-function LaneComponent(props) {
-	const { connectDragPreview, connectDropTarget, connectDragSource, lane, laneNotes } = props;
-	return connectDragPreview(
-		connectDropTarget(
-			<div className='lane'>
-				<h2 className='lane__name'>
-					<Editable
-						editing={lane.editing}
-						id={lane.id}
-						value={lane.name}
-						onEdit={props.onEditLane}
-						onValueClick={props.onEditLane}
+		return connectDragPreview(
+			connectDropTarget(
+				<div className='lane'>
+					<h2 className='lane__name'>
+						<Editable
+							editing={lane.editing}
+							id={lane.id}
+							value={lane.name}
+							onEdit={this.props.onEditLane}
+							onValueClick={this.props.onEditLane}
+						/>
+						<button className='lane__delete' onClick={this.handleDeleteLane}>
+							-
+						</button>
+						{connectDragSource(<button className='lane__drag' />)}
+					</h2>
+					<Notes
+						notes={laneNotes}
+						onDeleteNote={this.handleDeleteNote}
+						onEditNote={this.props.onEditNote}
+						onValueClick={this.props.onEditNote}
+						onMoveNote={this.props.onMove}
 					/>
-					<button className='lane__delete' onClick={props.handleDeleteLane}>
-						-
+					<button className='add-note' onClick={this.handleCreateNote}>
+						+ note
 					</button>
-					{connectDragSource(<button className='lane__drag' />)}
-				</h2>
-				<Notes
-					notes={laneNotes}
-					onDeleteNote={props.handleDeleteNote}
-					onEditNote={props.onEditNote}
-					onValueClick={props.onEditNote}
-					onMoveNote={props.onMove}
-					CardComponent={props.CardComponent}
-				/>
-				<button className='add-note' onClick={props.handleCreateNote}>
-					+ note
-				</button>
-			</div>
-		)
-	);
+				</div>
+			)
+		);
+	}
 }
